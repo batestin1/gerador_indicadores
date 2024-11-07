@@ -123,20 +123,28 @@ if uploaded_file is not None:
                 st.plotly_chart(fig)
 
         # Dashboard para cruzamento de variáveis numéricas e de objeto
+       # Dashboard para cruzamento de variáveis numéricas e de objeto
         if num_cols and obj_cols:
             st.header("Dashboard de Cruzamento de Variáveis")
+            
             # Selecionar a variável numérica
             selected_num = st.selectbox("Selecione a variável numérica", options=num_cols)
+            
             # Selecionar a variável de texto
             selected_obj = st.selectbox("Selecione a variável de texto", options=obj_cols)
             
+            # Limitar os valores da coluna de objeto para os Top 10 mais frequentes
+            top_values = df[selected_obj].value_counts().head(10).index.tolist()
+            filtered_df = df[df[selected_obj].isin(top_values)]
+            
             # Gerar gráfico de barras com base no cruzamento selecionado
             st.subheader(f"Cruzamento entre {selected_num} e {selected_obj}")
-            cross_tab = pd.crosstab(df[selected_obj], df[selected_num])
+            cross_tab = pd.crosstab(filtered_df[selected_obj], filtered_df[selected_num])
             
             fig, ax = plt.subplots(figsize=(10, 6))
             cross_tab.plot(kind='bar', stacked=False, ax=ax)
             st.pyplot(fig)
+
 
 else:
     st.write("Por favor, faça o upload de um arquivo para gerar insights.")
