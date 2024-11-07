@@ -141,7 +141,7 @@ if uploaded_file is not None:
             st.subheader(f"Cruzamento entre {selected_num} e {selected_obj}")
             cross_tab = pd.crosstab(filtered_df[selected_obj], filtered_df[selected_num])
             
-            fig, ax = plt.subplots(figsize=(10, 6))
+            fig, ax = plt.subplots(figsize=(150, 6))
             cross_tab.plot(kind='bar', stacked=False, ax=ax)
             st.pyplot(fig)
 
